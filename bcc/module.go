@@ -182,10 +182,10 @@ func (bpf *Module) LoadTracepoint(name string) (int, error) {
 	return bpf.Load(name, C.BPF_PROG_TYPE_TRACEPOINT, 0, 0)
 }
 
-// LoadRawTracepoint loads a program of type BPF_PROG_TYPE_RAW_TRACEPOINT
-func (bpf *Module) LoadRawTracepoint(name string) (int, error) {
-	return bpf.Load(name, C.BPF_PROG_TYPE_RAW_TRACEPOINT, 0, 0)
-}
+// // LoadRawTracepoint loads a program of type BPF_PROG_TYPE_RAW_TRACEPOINT
+// func (bpf *Module) LoadRawTracepoint(name string) (int, error) {
+// 	return bpf.Load(name, C.BPF_PROG_TYPE_RAW_TRACEPOINT, 0, 0)
+// }
 
 // LoadPerfEvent loads a program of type BPF_PROG_TYPE_PERF_EVENT
 func (bpf *Module) LoadPerfEvent(name string) (int, error) {
