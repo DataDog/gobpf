@@ -156,44 +156,44 @@ int libbpf_nla_parse_nested(struct nlattr *tb[], int maxtype,
 				libbpf_nla_len(nla), policy);
 }
 
-/* dump netlink extended ack error message */
-int libbpf_nla_dump_errormsg(struct nlmsghdr *nlh)
-{
-	struct libbpf_nla_policy extack_policy[NLMSGERR_ATTR_MAX + 1] = {
-		[NLMSGERR_ATTR_MSG]	= { .type = LIBBPF_NLA_STRING },
-		[NLMSGERR_ATTR_OFFS]	= { .type = LIBBPF_NLA_U32 },
-	};
-	struct nlattr *tb[NLMSGERR_ATTR_MAX + 1], *attr;
-	struct nlmsgerr *err;
-	char *errmsg = NULL;
-	int hlen, alen;
+/* /\* dump netlink extended ack error message *\/ */
+/* int libbpf_nla_dump_errormsg(struct nlmsghdr *nlh) */
+/* { */
+/* 	struct libbpf_nla_policy extack_policy[NLMSGERR_ATTR_MAX + 1] = { */
+/* 		[NLMSGERR_ATTR_MSG]	= { .type = LIBBPF_NLA_STRING }, */
+/* 		[NLMSGERR_ATTR_OFFS]	= { .type = LIBBPF_NLA_U32 }, */
+/* 	}; */
+/* 	struct nlattr *tb[NLMSGERR_ATTR_MAX + 1], *attr; */
+/* 	struct nlmsgerr *err; */
+/* 	char *errmsg = NULL; */
+/* 	int hlen, alen; */
 
-	/* no TLVs, nothing to do here */
-	if (!(nlh->nlmsg_flags & NLM_F_ACK_TLVS))
-		return 0;
+/* 	/\* no TLVs, nothing to do here *\/ */
+/* 	if (!(nlh->nlmsg_flags & NLM_F_ACK_TLVS)) */
+/* 		return 0; */
 
-	err = (struct nlmsgerr *)NLMSG_DATA(nlh);
-	hlen = sizeof(*err);
+/* 	err = (struct nlmsgerr *)NLMSG_DATA(nlh); */
+/* 	hlen = sizeof(*err); */
 
-	/* if NLM_F_CAPPED is set then the inner err msg was capped */
-	if (!(nlh->nlmsg_flags & NLM_F_CAPPED))
-		hlen += nlmsg_len(&err->msg);
+/* 	/\* if NLM_F_CAPPED is set then the inner err msg was capped *\/ */
+/* 	if (!(nlh->nlmsg_flags & NLM_F_CAPPED)) */
+/* 		hlen += nlmsg_len(&err->msg); */
 
-	attr = (struct nlattr *) ((void *) err + hlen);
-	alen = nlh->nlmsg_len - hlen;
+/* 	attr = (struct nlattr *) ((void *) err + hlen); */
+/* 	alen = nlh->nlmsg_len - hlen; */
 
-	if (libbpf_nla_parse(tb, NLMSGERR_ATTR_MAX, attr, alen,
-			     extack_policy) != 0) {
-		fprintf(stderr,
-			"Failed to parse extended error attributes\n");
-		return 0;
-	}
+/* 	if (libbpf_nla_parse(tb, NLMSGERR_ATTR_MAX, attr, alen, */
+/* 			     extack_policy) != 0) { */
+/* 		fprintf(stderr, */
+/* 			"Failed to parse extended error attributes\n"); */
+/* 		return 0; */
+/* 	} */
 
-	if (tb[NLMSGERR_ATTR_MSG])
-		errmsg = (char *) libbpf_nla_data(tb[NLMSGERR_ATTR_MSG]);
+/* 	if (tb[NLMSGERR_ATTR_MSG]) */
+/* 		errmsg = (char *) libbpf_nla_data(tb[NLMSGERR_ATTR_MSG]); */
 
-	fprintf(stderr, "Kernel error message: %s\n", errmsg);
+/* 	fprintf(stderr, "Kernel error message: %s\n", errmsg); */
 
-	return 0;
-}
+/* 	return 0; */
+/* } */
 

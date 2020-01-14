@@ -101,6 +101,6 @@ int libbpf_nla_parse_nested(struct nlattr *tb[], int maxtype,
 			    struct nlattr *nla,
 			    struct libbpf_nla_policy *policy);
 
-int libbpf_nla_dump_errormsg(struct nlmsghdr *nlh);
+/* int libbpf_nla_dump_errormsg(struct nlmsghdr *nlh); */
 
 #endif /* __LIBBPF_NLATTR_H */
