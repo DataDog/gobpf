@@ -59,7 +59,8 @@ static int bpf_netlink_recv(int sock, __u32 nl_pid, int seq,
 				if (!err->error)
 					continue;
 				ret = err->error;
-				libbpf_nla_dump_errormsg(nh);
+                                fprintf(stderr, "libbpf_nla_dump_errormsg() has been commented out.");
+				/* libbpf_nla_dump_errormsg(nh); */
 				goto done;
 			case NLMSG_DONE:
 				return 0;
@@ -92,10 +93,10 @@ int libbpf_netlink_open(__u32 *nl_pid)
 	if (sock < 0)
 		return -errno;
 
-	if (setsockopt(sock, SOL_NETLINK, NETLINK_EXT_ACK,
-		       &one, sizeof(one)) < 0) {
+	/* if (setsockopt(sock, SOL_NETLINK, NETLINK_EXT_ACK, */
+	/* 	       &one, sizeof(one)) < 0) { */
 		fprintf(stderr, "Netlink error reporting not supported\n");
-	}
+	/* } */
 
 	if (bind(sock, (struct sockaddr *)&sa, sizeof(sa)) < 0) {
 		ret = -errno;
@@ -157,7 +158,7 @@ int bpf_set_link_xdp_fd(int ifindex, int fd, __u32 flags)
 
 	if (flags) {
   		nla_xdp = (struct nlattr *)((char *)nla + nla->nla_len);
-  		nla_xdp->nla_type = IFLA_XDP_FLAGS;
+  		nla_xdp->nla_type = 3 /* IFLA_XDP_FLAGS */;
   		nla_xdp->nla_len = NLA_HDRLEN + sizeof(flags);
   		memcpy((char *)nla_xdp + NLA_HDRLEN, &flags, sizeof(flags));
   		nla->nla_len += nla_xdp->nla_len;
